@@ -1,0 +1,96 @@
+substitutions:
+  device_name: easun-rwb1
+  friendly_name: EASUN RWB1
+  update_interval: 2s
+  activity_led_pin: GPIO8
+
+esphome:
+  name: ${device_name}
+  friendly_name: ${friendly_name}
+
+esp32:
+  board: esp32-c3-devkitm-1
+  flash_size: 4MB
+  framework:
+    type: esp-idf
+
+logger:
+  hardware_uart: USB_SERIAL_JTAG
+  level: INFO
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  min_auth_mode: WPA2
+
+api:
+  encryption:
+    key: !secret api_encryption_key
+  # ESP32-C3 is single-core and shares radio time between Wi-Fi and BLE.
+  # Start BLE only after Wi-Fi and the native API are fully connected.
+  on_client_connected:
+    - esp32_ble_tracker.start_scan:
+        continuous: true
+  on_client_disconnected:
+    - if:
+        condition:
+          not:
+            api.connected:
+        then:
+          - esp32_ble_tracker.stop_scan:
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+external_components:
+  - source: github://jpedrotas/easun-rwb1-esphome@v0.1.0-alpha.1
+    components: [rwb1_ble]
+    refresh: 1d
+
+esp32_ble_tracker:
+  scan_parameters:
+    # A low scan duty cycle leaves enough shared radio time for reliable Wi-Fi
+    # association on the single-core ESP32-C3.
+    interval: 320ms
+    window: 30ms
+    active: false
+    continuous: false
+
+rwb1_ble:
+  dtu_id: !secret rwb1_dtu_id
+  update_interval: ${update_interval}
+  activity_led:
+    number: ${activity_led_pin}
+    inverted: true
+    ignore_strapping_warning: true
+  status_code:
+    name: Status Code
+  grid_voltage:
+    name: Grid Voltage
+  grid_frequency:
+    name: Grid Frequency
+  pv_voltage:
+    name: PV Voltage
+  pv_power:
+    name: PV Power
+  battery_voltage:
+    name: Battery Voltage
+  battery_soc:
+    name: Battery State of Charge
+  battery_charge_current:
+    name: Battery Charge Current
+  battery_discharge_current:
+    name: Battery Discharge Current
+  output_voltage:
+    name: Output Voltage
+  output_frequency:
+    name: Output Frequency
+  load_apparent_power:
+    name: Load Apparent Power
+  load_active_power:
+    name: Load Active Power
+  load_percent:
+    name: Load Percentage
+  rated_power:
+    name: Rated Power

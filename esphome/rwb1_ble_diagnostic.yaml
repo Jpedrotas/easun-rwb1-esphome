@@ -1,0 +1,57 @@
+substitutions:
+  activity_led_pin: GPIO8
+
+esphome:
+  name: easun-rwb1-probe
+  friendly_name: EASUN RWB1 BLE Probe
+
+esp32:
+  board: esp32-c3-devkitm-1
+  flash_size: 4MB
+  framework:
+    type: esp-idf
+
+logger:
+  hardware_uart: USB_SERIAL_JTAG
+  level: DEBUG
+
+output:
+  - platform: gpio
+    id: activity_led
+    pin:
+      number: ${activity_led_pin}
+      inverted: true
+      # GPIO8 is the onboard active-low LED on the common C3 SuperMini.
+      ignore_strapping_warning: true
+
+script:
+  - id: blink_activity_led
+    mode: restart
+    then:
+      - output.turn_on: activity_led
+      - delay: 100ms
+      - output.turn_off: activity_led
+
+# Keep this first diagnostic build offline. On a single-core ESP32-C3,
+# simultaneous Wi-Fi and continuous BLE scanning can reduce stability.
+esp32_ble_tracker:
+  scan_parameters:
+    interval: 1100ms
+    window: 1100ms
+    active: true
+    continuous: true
+  on_ble_advertise:
+    then:
+      - lambda: |-
+          const auto name = x.get_name();
+          if (name.rfind("SSL_", 0) == 0) {
+            static uint32_t last_report = 0;
+            const uint32_t now = millis();
+            if (now - last_report < 1000) {
+              return;
+            }
+            last_report = now;
+            ESP_LOGI("rwb1_probe", "RWB1 candidate detected: rssi=%d",
+                     x.get_rssi());
+            id(blink_activity_led).execute();
+          }
