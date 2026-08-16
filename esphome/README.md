@@ -37,6 +37,10 @@ the native Home Assistant API are connected, then uses a low-duty-cycle passive
 scan.
 Wi-Fi and Bluetooth share the single-core ESP32-C3 radio; starting BLE earlier
 can prevent Wi-Fi from authenticating on mesh or multi-access-point networks.
+It also defaults to `wifi_output_power: 8.5dB`. This setting fixed repeated
+`Auth Expired` errors on the tested ESP32-C3 while retaining reliable network
+coverage. It can be overridden in `substitutions` if a different board or site
+needs more transmit power.
 The RWB1 is still discovered automatically, normally within a few seconds after
 the API connection is established. If the last API client disconnects, scanning
 is stopped again so the node can recover its network connection cleanly.

@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## 0.1.0 - 2026-08-16
+
+- Added the tested ESP32-C3 Wi-Fi settings: disabled power saving and an 8.5 dB
+  transmit-power default to avoid repeated WPA2 `Auth Expired` failures.
+- Confirmed simultaneous Wi-Fi and BLE operation with repeated validated
+  two-second telemetry reads on the reference hardware.
+
 ## 0.1.0-alpha.1 - 2026-08-16
 
 - Initial standalone ESPHome external component for direct RWB1 BLE telemetry.

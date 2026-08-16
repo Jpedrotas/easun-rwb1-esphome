@@ -17,10 +17,11 @@
 
 Direct BLE discovery, connection, response decryption, Modbus CRC validation
 and repeated two-second telemetry reads were confirmed on this environment.
-Wi-Fi and BLE coexistence on the final `esp32-c3-devkitm-1` configuration is
-being validated before the first stable release.
+Wi-Fi authentication on the final `esp32-c3-devkitm-1` configuration was
+confirmed with power saving disabled and transmit power set to 8.5 dB. Full
+Wi-Fi and BLE coexistence was confirmed with repeated CRC-valid telemetry reads
+at a two-second cadence.
 
 When reporting another working configuration, include the ESP32 board, flash
 size, ESPHome version, RWB1 type and read cadence. Do not include DTU IDs, MAC
 addresses, serial numbers, private addresses, credentials or complete logs.
-

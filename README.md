@@ -3,8 +3,8 @@
 > Unofficial community project. It is not affiliated with or endorsed by
 > EASUN, the RWB1 manufacturer or the vendor application provider.
 
-> Status: pre-release. Direct BLE telemetry is validated; final Wi-Fi/BLE
-> coexistence validation on the ESP32-C3 is still in progress.
+> Status: initial stable release. Direct BLE telemetry and Wi-Fi/BLE
+> coexistence are validated on the tested ESP32-C3 configuration.
 
 [`esphome/rwb1_ble.yaml`](esphome/rwb1_ble.yaml) is the ready-to-use ESP32-C3
 configuration. It discovers the
@@ -44,6 +44,10 @@ the native Home Assistant API are connected, then uses a low-duty-cycle passive
 scan.
 Wi-Fi and Bluetooth share the single-core ESP32-C3 radio; starting BLE earlier
 can prevent Wi-Fi from authenticating on mesh or multi-access-point networks.
+It also defaults to `wifi_output_power: 8.5dB`. This setting fixed repeated
+`Auth Expired` errors on the tested ESP32-C3 while retaining reliable network
+coverage. It can be overridden in `substitutions` if a different board or site
+needs more transmit power.
 The RWB1 is still discovered automatically, normally within a few seconds after
 the API connection is established. If the last API client disconnects, scanning
 is stopped again so the node can recover its network connection cleanly.

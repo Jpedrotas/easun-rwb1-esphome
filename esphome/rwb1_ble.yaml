@@ -3,6 +3,7 @@ substitutions:
   friendly_name: EASUN RWB1
   update_interval: 2s
   activity_led_pin: GPIO8
+  wifi_output_power: 8.5dB
 
 esphome:
   name: ${device_name}
@@ -22,6 +23,9 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   min_auth_mode: WPA2
+  power_save_mode: NONE
+  # Some ESP32-C3 boards fail WPA2 authentication at the default TX power.
+  output_power: ${wifi_output_power}
 
 api:
   encryption:
@@ -44,7 +48,7 @@ ota:
     password: !secret ota_password
 
 external_components:
-  - source: github://jpedrotas/easun-rwb1-esphome@v0.1.0-alpha.1
+  - source: github://jpedrotas/easun-rwb1-esphome@v0.1.0
     components: [rwb1_ble]
     refresh: 1d
 
