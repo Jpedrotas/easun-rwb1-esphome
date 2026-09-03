@@ -6,6 +6,11 @@
 > Status: initial stable release. Direct BLE telemetry and Wi-Fi/BLE
 > coexistence are validated on the tested ESP32-C3 configuration.
 
+![Illustrated hardware overview showing a hybrid solar inverter, an RWB1-04 dongle and an ESP32-C3 development board](docs/images/easun-rwb1-esphome-hardware.png)
+
+*Illustrated hardware overview. Product appearance can vary between inverter,
+RWB1-04 and ESP32-C3 revisions.*
+
 [`esphome/rwb1_ble.yaml`](esphome/rwb1_ble.yaml) is the ready-to-use ESP32-C3
 configuration. It discovers the
 nearby RWB1 from its `SSL_` Bluetooth name, keeps one BLE connection open and

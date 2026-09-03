@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 - Documented that vendor applications may label the required DTU ID as
   `Device PN` or `Device Name`.
+- Added an original illustrated hardware overview of the inverter, RWB1-04
+  dongle and ESP32-C3 board to the installation documentation.
 
 ## 0.1.0 - 2026-08-16
 

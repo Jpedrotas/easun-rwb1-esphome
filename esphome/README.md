@@ -5,6 +5,11 @@ nearby RWB1 from its `SSL_` Bluetooth name, keeps one BLE connection open and
 publishes the confirmed read-only telemetry block to Home Assistant. No MAC
 address or inverter-control entity is required.
 
+![Illustrated hardware overview showing a hybrid solar inverter, an RWB1-04 dongle and an ESP32-C3 development board](../docs/images/easun-rwb1-esphome-hardware.png)
+
+*Illustrated hardware overview. Product appearance can vary between inverter,
+RWB1-04 and ESP32-C3 revisions.*
+
 ## Quick start
 
 1. In the ESPHome dashboard, create a new ESP32-C3 device. This creates the
