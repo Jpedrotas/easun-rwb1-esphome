@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented here.
 
+## Unreleased
+
+- Documented that vendor applications may label the required DTU ID as
+  `Device PN` or `Device Name`.
+
 ## 0.1.0 - 2026-08-16
 
 - Added the tested ESP32-C3 Wi-Fi settings: disabled power saving and an 8.5 dB

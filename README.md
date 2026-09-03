@@ -17,9 +17,10 @@ address or inverter-control entity is required.
 1. In the ESPHome dashboard, create a new ESP32-C3 device. This creates the
    Wi-Fi, API and OTA values in its private `secrets.yaml`.
 2. Copy `esphome/rwb1_ble.yaml` over the generated device configuration.
-3. Find the RWB1 **DTU ID** in the vendor application using the instructions in
-   [How to find the DTU ID](#how-to-find-the-dtu-id), then add it only to the
-   ESPHome secrets file:
+3. Find the RWB1 **DTU ID** in the vendor application. Depending on the app and
+   version, the same identifier may be labelled **Device PN** or **Device
+   Name**. Use the instructions in [How to find the DTU ID](#how-to-find-the-dtu-id),
+   then add it only to the ESPHome secrets file:
 
    ```yaml
    rwb1_dtu_id: "YOUR_RWB1_DTU_ID"
@@ -59,8 +60,9 @@ Wi-Fi/cloud path is separate from this local BLE connection.
 ## How to find the DTU ID
 
 The easiest and safest method is to copy it from the vendor application. The
-tested application displays its menus in English, but translated versions may
-use equivalent names.
+same identifier is not labelled consistently across applications: look for
+**DTU ID**, **Device PN** or **Device Name**. The tested application displays
+its menus in English, but translated versions may use equivalent names.
 
 1. Open the vendor application and sign in to the account that owns the EASUN
    installation.
@@ -68,7 +70,7 @@ use equivalent names.
 3. Open **Device Information**. Depending on the application version, this may
    be reached through the information/details button or the menu in the top
    corner of the device page.
-4. Locate the row labelled **DTU ID**.
+4. Locate the row labelled **DTU ID**, **Device PN** or **Device Name**.
 5. Tap the copy icon beside that row. Copy the complete value without spaces,
    line breaks or added punctuation.
 6. In the ESPHome dashboard, open `secrets.yaml` and add:
@@ -77,7 +79,9 @@ use equivalent names.
    rwb1_dtu_id: "PASTE_THE_COMPLETE_DTU_ID_HERE"
    ```
 
-The DTU ID is normally a long identifier. It is **not** any of the following:
+The required value is normally a long identifier, even when the application
+calls it **Device Name**. Do not use an editable friendly name or installation
+nickname. It is **not** any of the following:
 
 - the value shown on the **SN** row;
 - the Bluetooth name beginning with `SSL_`;
@@ -86,15 +90,15 @@ The DTU ID is normally a long identifier. It is **not** any of the following:
 
 The **ME → Bluetooth Tool** screen is useful for confirming that the RWB1 can be
 found over Bluetooth, but it is not required to copy the DTU ID. Do not guess a
-DTU ID from the `SSL_` name or from a label: use the value explicitly shown on
-the **DTU ID** row.
+DTU ID from the `SSL_` name or from a physical label: copy the complete value
+shown as **DTU ID**, **Device PN** or **Device Name** in the application.
 
-If **Device Information** or **DTU ID** is not visible, confirm that the device
-has been added to the signed-in account and that the account has permission to
-view it. Application layouts can change; look for **Information**, **Details**
-or an information icon on the device page. Do not share screenshots of this
-page publicly because they may also contain serial numbers, location and other
-private installation data.
+If **Device Information**, **DTU ID**, **Device PN** or **Device Name** is not
+visible, confirm that the device has been added to the signed-in account and
+that the account has permission to view it. Application layouts can change;
+look for **Information**, **Details** or an information icon on the device
+page. Do not share screenshots of this page publicly because they may also
+contain serial numbers, location and other private installation data.
 
 If ESPHome discovers and connects to the RWB1 but repeatedly logs `Invalid RWB1
 response`, re-copy the DTU ID and check for missing digits or spaces. A wrong DTU
